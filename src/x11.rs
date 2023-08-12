@@ -43,8 +43,8 @@ pub struct GlContext {
 }
 
 impl GlContext {
-    pub unsafe fn create<H: HasRawWindowHandle + HasDisplayHandle>(
-        parent: &impl H,
+    pub unsafe fn create(
+        parent: &impl (HasRawWindowHandle + HasDisplayHandle),
         config: GlConfig,
     ) -> Result<GlContext, GlError> {
         let handle = if let RawWindowHandle::Xlib(handle) = parent.raw_window_handle() {
