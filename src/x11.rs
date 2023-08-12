@@ -53,7 +53,7 @@ impl GlContext {
             return Err(GlError::InvalidWindowHandle);
         };
 
-        let disp_handle = handle.display_handle().expect("Failed to get a display handle!"); // TODO: Error reporting
+        let disp_handle = parent.display_handle().expect("Failed to get a display handle!"); // TODO: Error reporting
 
         if disp_handle.display.is_null() {
             return Err(GlError::InvalidWindowHandle);
