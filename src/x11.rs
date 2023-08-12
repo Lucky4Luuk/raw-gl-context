@@ -1,7 +1,7 @@
 use std::ffi::{c_void, CString};
 use std::os::raw::{c_int, c_ulong};
 
-use raw_window_handle::{HasRawWindowHandle, RawWindowHandle, HasRawDisplayHandle};
+use raw_window_handle::{HasRawWindowHandle, RawWindowHandle, HasRawDisplayHandle, RawDisplayHandle};
 
 use x11::glx;
 use x11::xlib;
@@ -53,7 +53,11 @@ impl GlContext {
             return Err(GlError::InvalidWindowHandle);
         };
 
-        let disp_handle = parent.display_handle().expect("Failed to get a display handle!"); // TODO: Error reporting
+        let disp_handle = if let RawDisplayHandle::Xlib(handle) = parent.raw_display_handle() {
+            handle
+        } else {
+            unimplemented!(); // TODO: Return a proper error
+        };
 
         if disp_handle.display.is_null() {
             return Err(GlError::InvalidWindowHandle);
